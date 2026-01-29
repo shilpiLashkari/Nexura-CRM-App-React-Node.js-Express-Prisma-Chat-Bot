@@ -15,12 +15,16 @@ services:
       - key: NODE_VERSION
         value: 20.12.2
 
-  - type: static
+  - type: static_site
     name: nexura-client
     env: static
     plan: free
     buildCommand: cd client && npm install && npm run build
-    staticPublishPath: ./client/dist
+    publishPath: ./client/dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
     envVars:
       - key: VITE_API_URL
         fromService:
