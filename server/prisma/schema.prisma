@@ -1,0 +1,114 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Organization {
+  id        Int      @id @default(autoincrement())
+  name      String
+  plan      String   @default("free")
+  createdAt DateTime @default(now())
+  users     User[]
+  accounts  Account[]
+  contacts  Contact[]
+  deals     Deal[]
+  activities Activity[]
+  workflows  Workflow[]
+}
+
+model User {
+  id             Int          @id @default(autoincrement())
+  email          String       @unique
+  password       String
+  name           String
+  role           String       @default("user") // admin, user
+  organizationId Int
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  createdAt      DateTime     @default(now())
+  auditLogs      AuditLog[]
+}
+
+
+model Account {
+  id             Int          @id @default(autoincrement())
+  name           String
+  industry       String?
+  website        String?
+  address        String?
+  organizationId Int
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  contacts       Contact[]
+  deals          Deal[]
+
+  @@unique([name, organizationId])
+}
+
+model Contact {
+  id             Int          @id @default(autoincrement())
+  name           String
+  email          String
+  phone          String?
+  title          String?
+  accountId      Int?
+  account        Account?     @relation(fields: [accountId], references: [id])
+  organizationId Int
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  createdAt      DateTime     @default(now())
+  
+  @@unique([email, organizationId])
+}
+
+
+model Deal {
+  id             Int          @id @default(autoincrement())
+  title          String
+  value          Float
+  stage          String       @default("New") // New, Negotiation, Won, Lost
+  winProbability Float?       @default(0.0)
+  aiInsight      String?
+  accountId      Int
+  account        Account      @relation(fields: [accountId], references: [id])
+  organizationId Int
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+}
+
+model Workflow {
+  id             Int          @id @default(autoincrement())
+  name           String
+  trigger        String       // e.g., 'DEAL_STAGE_WON'
+  action         String       // e.g., 'CREATE_ACTIVITY'
+  actionParams   String       // JSON string for params
+  isActive       Boolean      @default(true)
+  organizationId Int
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  createdAt      DateTime     @default(now())
+}
+
+
+
+model Activity {
+  id             Int          @id @default(autoincrement())
+  action         String
+  target         String
+  organizationId Int
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  createdAt      DateTime     @default(now())
+}
+
+model AuditLog {
+  id        Int      @id @default(autoincrement())
+  action    String
+  entity    String
+  details   String?
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt      DateTime     @default(now())
+}
