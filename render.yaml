@@ -15,7 +15,7 @@ services:
       - key: NODE_VERSION
         value: 20.12.2
 
-  - type: static
+  - type: static_site
     name: nexura-client
     env: static
     plan: free
