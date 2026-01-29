@@ -15,11 +15,12 @@ services:
       - key: NODE_VERSION
         value: 20.12.2
 
-  - type: static_site
+  - type: web
     name: nexura-client
+    env: static
     plan: free
     buildCommand: cd client && npm install && npm run build
-    publishPath: ./client/dist
+    staticPublishPath: ./client/dist
     routes:
       - type: rewrite
         source: /*
