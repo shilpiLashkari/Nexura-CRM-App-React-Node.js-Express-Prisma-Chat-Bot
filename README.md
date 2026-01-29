@@ -2,7 +2,7 @@
 
 Nexura is a modern, enterprise-grade Customer Relationship Management (CRM) platform designed for scalability and performance. Built with **React**, **Node.js**, **Express**, and **Prisma**, it features a comprehensive dashboard, deal pipeline, AI-powered assistant with real-time context, and global search capabilities.
 
-![Nexura Dashboard](./client/public/vite.svg)
+[Nexura Dashboard](./client/public/vite.svg)
 
 ## 🚀 Key Features
 
