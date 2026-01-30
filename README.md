@@ -109,7 +109,7 @@ This project is configured for deployment on **Vercel** as a monorepo.
     *   Select your GitHub repository.
 3.  **Configure Project**:
     *   **Framework Preset**: Vercel should auto-detect "Vite" for the client, but since this is a monorepo, it might need manual adjustments if not using the root `vercel.json`.
-    *   **Root Directory**: Keep it as `./` (root).
+    *   **Root Directory**: Leave it **completely empty** (do not type `./` or anything else).
     *   **Build Command**: Vercel will use the settings from `vercel.json`.
 4.  **Environment Variables**:
     Add the following variables in the Vercel Project Settings -> Environment Variables:
