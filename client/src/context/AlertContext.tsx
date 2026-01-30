@@ -1,4 +1,5 @@
-import { createContext, useContext, useState, ReactNode, useCallback } from 'react';
+import { createContext, useContext, useState, useCallback } from 'react';
+import type { ReactNode } from 'react';
 import AlertModal from '../components/AlertModal';
 
 type AlertType = 'success' | 'error' | 'warning' | 'info';
