@@ -13,40 +13,44 @@ import Login from './pages/Login';
 import Teams from './pages/Teams';
 import Careers from './pages/Careers';
 import { AuthProvider } from './context/AuthContext';
+import { AlertProvider } from './context/AlertContext';
+import { NotificationProvider } from './context/NotificationContext';
 import { ThemeProvider } from './context/ThemeContext';
 
-/**
- * Main Application Component.
- * Sets up routing, authentication, and theme providers.
- */
+// ... (existing imports)
+
 function App() {
   return (
     <ThemeProvider>
       <AuthProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/login" element={<Login />} />
+        <NotificationProvider>
+          <AlertProvider>
+            <BrowserRouter>
+              <Routes>
+                <Route path="/login" element={<Login />} />
 
-            <Route path="/" element={
-              <ProtectedRoute>
-                <Layout />
-              </ProtectedRoute>
-            }>
-              <Route index element={<Dashboard />} />
-              <Route path="accounts" element={<Accounts />} />
-              <Route path="contacts" element={<Contacts />} />
-              <Route path="deals" element={<Deals />} />
-              <Route path="active_deals" element={<Reports />} />
-              <Route path="activities" element={<Activities />} />
-              <Route path="settings" element={<Settings />} />
+                <Route path="/" element={
+                  <ProtectedRoute>
+                    <Layout />
+                  </ProtectedRoute>
+                }>
+                  <Route index element={<Dashboard />} />
+                  <Route path="accounts" element={<Accounts />} />
+                  <Route path="contacts" element={<Contacts />} />
+                  <Route path="deals" element={<Deals />} />
+                  <Route path="active_deals" element={<Reports />} />
+                  <Route path="activities" element={<Activities />} />
+                  <Route path="settings" element={<Settings />} />
 
-              <Route path="customers" element={<Accounts />} />
-              <Route path="reports" element={<Reports />} />
-              <Route path="teams" element={<Teams />} />
-              <Route path="careers" element={<Careers />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
+                  <Route path="customers" element={<Accounts />} />
+                  <Route path="reports" element={<Reports />} />
+                  <Route path="teams" element={<Teams />} />
+                  <Route path="careers" element={<Careers />} />
+                </Route>
+              </Routes>
+            </BrowserRouter>
+          </AlertProvider>
+        </NotificationProvider>
       </AuthProvider>
     </ThemeProvider>
   );

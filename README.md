@@ -91,3 +91,39 @@ To enable the smart AI bot features:
 2.  Add it to `server/.env` as `GEMINI_API_KEY`.
 3.  The bot will automatically switch from "Offline Mode" (keyword matching) to "Online Mode" (Generative AI).
 
+
+## 🚀 Deployment to Vercel
+
+This project is configured for deployment on **Vercel** as a monorepo.
+
+### Prerequisites
+
+1.  **Vercel Account**: Sign up at [vercel.com](https://vercel.com).
+2.  **Cloud Database**: Vercel Serverless Functions are ephemeral, so **SQLite will not work**. You must use a cloud-hosted PostgreSQL database (e.g., [Neon](https://neon.tech/), [Supabase](https://supabase.com/), or [Vercel Postgres](https://vercel.com/docs/storage/vercel-postgres)).
+
+### Steps
+
+1.  **Push to GitHub**: Ensure your code is pushed to a GitHub repository.
+2.  **Import to Vercel**:
+    *   Go to Vercel Dashboard -> "Add New..." -> "Project".
+    *   Select your GitHub repository.
+3.  **Configure Project**:
+    *   **Framework Preset**: Vercel should auto-detect "Vite" for the client, but since this is a monorepo, it might need manual adjustments if not using the root `vercel.json`.
+    *   **Root Directory**: Keep it as `./` (root).
+    *   **Build Command**: Vercel will use the settings from `vercel.json`.
+4.  **Environment Variables**:
+    Add the following variables in the Vercel Project Settings -> Environment Variables:
+    *   `DATABASE_URL`: Your cloud PostgreSQL connection string.
+    *   `JWT_SECRET`: A secure random string.
+    *   `GEMINI_API_KEY`: Your Google AI Studio key.
+    *   `NODE_ENV`: Set to `production`.
+5.  **Deploy**: Click "Deploy".
+
+### Database Migration on Deployment
+
+Since the database is cloud-hosted, you need to apply migrations from your local machine or a CI/CD pipeline:
+```bash
+# Update local .env to point to the production DB temporarily
+# OR run explicitly:
+DATABASE_URL="your_cloud_db_string" npx prisma migrate deploy --schema=./server/prisma/schema.prisma
+```
