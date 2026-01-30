@@ -42,14 +42,21 @@ const SidebarItem = ({ to, icon: Icon, label, collapsed }: { to: string, icon: a
  * Main Layout component containing Sidebar, Header, and Content Area.
  * Handles search functionality and responsive navigation.
  */
+import { useNotifications } from '../context/NotificationContext';
+import NotificationDropdown from './NotificationDropdown';
+
+// ... (existing code)
+
 const Layout = () => {
     const [collapsed, setCollapsed] = useState(false);
     const { user, logout } = useAuth();
     const { theme, toggleTheme } = useTheme();
+    const { unreadCount } = useNotifications(); // Use context
 
     const [searchQuery, setSearchQuery] = useState('');
     const [searchResults, setSearchResults] = useState<any>({ accounts: [], deals: [], contacts: [] });
     const [showResults, setShowResults] = useState(false);
+    const [showNotifications, setShowNotifications] = useState(false); // New state
     const searchRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -217,10 +224,18 @@ const Layout = () => {
                             {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
                         </button>
 
-                        <button className="p-2 rounded-full text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800 transition-colors relative">
-                            <Bell size={20} />
-                            <span className="absolute top-1.5 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white dark:border-slate-900"></span>
-                        </button>
+                        <div className="relative">
+                            <button
+                                onClick={() => setShowNotifications(!showNotifications)}
+                                className="p-2 rounded-full text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800 transition-colors relative"
+                            >
+                                <Bell size={20} />
+                                {unreadCount > 0 && (
+                                    <span className="absolute top-1.5 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white dark:border-slate-900 animate-pulse"></span>
+                                )}
+                            </button>
+                            <NotificationDropdown isOpen={showNotifications} onClose={() => setShowNotifications(false)} />
+                        </div>
 
                         <div className="h-8 w-px bg-slate-200 dark:bg-slate-800 mx-2 hidden sm:block"></div>
 

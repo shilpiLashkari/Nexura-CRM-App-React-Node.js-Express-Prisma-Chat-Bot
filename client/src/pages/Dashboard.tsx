@@ -124,13 +124,23 @@ const Dashboard = () => {
             {/* Stats Grid */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {statCards.map((stat, index) => (
-                    <div key={index} className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-slate-700 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+                    <div
+                        key={index}
+                        className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-slate-700 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 animate-fade-in-up"
+                        style={{ animationDelay: `${index * 100}ms` }}
+                    >
                         <div className="flex justify-between items-start">
-                            <div>
+                            <div className="overflow-hidden">
                                 <p className="text-gray-500 dark:text-gray-400 text-sm font-medium">{stat.title}</p>
-                                <h3 className="text-3xl font-bold text-gray-900 dark:text-white mt-2">{stat.value}</h3>
+                                <h3
+                                    className="font-bold text-gray-900 dark:text-white mt-2 truncate"
+                                    style={{ fontSize: stat.value.toString().length > 10 ? '1.5rem' : '1.875rem' }}
+                                    title={stat.value.toString()}
+                                >
+                                    {stat.value}
+                                </h3>
                             </div>
-                            <div className={`p-3 rounded-lg ${stat.color} flex-shrink-0`}>
+                            <div className={`p-3 rounded-lg ${stat.color} flex-shrink-0 animate-float`}>
                                 <stat.icon size={24} />
                             </div>
                         </div>
