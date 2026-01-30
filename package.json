@@ -1,5 +1,5 @@
 {
-    "name": "nexura-crm-monorepo",
+    "name": "nexura_crm_monorepo",
     "version": "1.0.0",
     "private": true,
     "workspaces": [

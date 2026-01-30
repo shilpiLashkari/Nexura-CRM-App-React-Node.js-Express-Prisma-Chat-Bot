@@ -125,5 +125,5 @@ Since the database is cloud-hosted, you need to apply migrations from your local
 ```bash
 # Update local .env to point to the production DB temporarily
 # OR run explicitly:
-DATABASE_URL="your_cloud_db_string" npx prisma migrate deploy --schema=./server/prisma/schema.prisma
+DATABASE_URL="your_cloud_db_string" npx prisma db push --schema=./server/prisma/schema.prisma
 ```
