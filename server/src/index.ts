@@ -17,6 +17,11 @@ app.use(helmet());
 app.use(cors());
 app.use(express.json());
 
+// Health Check
+app.get('/', (req, res) => {
+    res.send('Server is running normally');
+});
+
 // Auth Routes
 app.post('/api/auth/register', register);
 app.post('/api/auth/login', login);
