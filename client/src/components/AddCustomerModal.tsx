@@ -58,9 +58,9 @@ const AddCustomerModal = ({ isOpen, onClose, onSuccess, initialData }: AddCustom
 
         try {
             if (initialData?.id) {
-                await axios.put(`http://localhost:3000/api/customers/${initialData.id}`, formData);
+                await axios.put(`/api/customers/${initialData.id}`, formData);
             } else {
-                await axios.post('http://localhost:3000/api/customers', formData);
+                await axios.post('/api/customers', formData);
             }
             onSuccess();
             onClose();

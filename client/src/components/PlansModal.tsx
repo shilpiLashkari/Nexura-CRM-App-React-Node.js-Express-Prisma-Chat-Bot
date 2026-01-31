@@ -1,4 +1,5 @@
 import { X, Check } from 'lucide-react';
+import axios from 'axios';
 
 interface PlansModalProps {
     isOpen: boolean;
@@ -31,12 +32,10 @@ const PlansModal = ({ isOpen, onClose }: PlansModalProps) => {
 
         try {
             // 1. Create Order on Backend
-            const orderRes = await fetch('http://localhost:3000/api/orders', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ amount, currency: 'USD' })
+            const orderRes = await axios.post('/api/orders', {
+                amount, currency: 'USD'
             });
-            const orderData = await orderRes.json();
+            const orderData = orderRes.data;
 
             const options = {
                 key: "rzp_test_1234567890", // Mock key for format
@@ -48,14 +47,10 @@ const PlansModal = ({ isOpen, onClose }: PlansModalProps) => {
                 order_id: orderData.id,
                 handler: async function (response: any) {
                     // 2. Verify Payment on Backend
-                    await fetch('http://localhost:3000/api/verify', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            paymentId: response.razorpay_payment_id,
-                            orderId: response.razorpay_order_id,
-                            signature: response.razorpay_signature
-                        })
+                    await axios.post('/api/verify', {
+                        paymentId: response.razorpay_payment_id,
+                        orderId: response.razorpay_order_id,
+                        signature: response.razorpay_signature
                     });
 
                     alert(`Payment Successful! Payment ID: ${response.razorpay_payment_id}`);
