@@ -15,7 +15,7 @@ const Activities = () => {
     useEffect(() => {
         const fetchActivities = async () => {
             try {
-                const response = await axios.get('http://localhost:3000/api/activities');
+                const response = await axios.get('/api/activities');
                 setActivities(response.data);
             } catch (error) {
                 console.error('Failed to fetch activities');
